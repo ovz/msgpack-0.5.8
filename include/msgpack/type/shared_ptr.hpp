@@ -14,7 +14,7 @@ inline std::shared_ptr<T>& operator>> (object o, std::shared_ptr<T>& v)
   if (o.via.array.size > 1) { throw type_error(); }
   if(o.via.array.size > 0) {
     object* p = o.via.array.ptr;
-    v = make_shared<T>();
+    v = std::make_shared<T>();
     p->convert(v.get());
   }
 	return v;

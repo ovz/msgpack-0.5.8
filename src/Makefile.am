@@ -78,8 +78,9 @@ nobase_include_HEADERS += \
 		msgpack/type/vector.hpp \
 		msgpack/type/tuple.hpp \
 		msgpack/type/define.hpp \
-		msgpack/type/tr1/unordered_map.hpp \
-		msgpack/type/tr1/unordered_set.hpp
+		msgpack/type/shared_ptr.hpp \
+	    msgpack/type/unordered_map.hpp \
+		msgpack/type/unordered_set.hpp
 endif
 
 EXTRA_DIST = \
