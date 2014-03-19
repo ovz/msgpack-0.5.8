@@ -15,3 +15,4 @@
 #include "type/define.hpp"
 #include "type/unordered_map.hpp"
 #include "type/unordered_set.hpp"
+#include "type/shared_ptr.hpp"

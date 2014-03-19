@@ -41,4 +41,5 @@ copy src\msgpack\type\tuple.hpp        include\msgpack\type\
 copy src\msgpack\type\define.hpp       include\msgpack\type\
 copy src\msgpack\type\unordered_map.hpp  include\msgpack\type\
 copy src\msgpack\type\unordered_set.hpp  include\msgpack\type\
+copy src\msgpack\type\shared_ptr.hpp  include\msgpack\type\
 

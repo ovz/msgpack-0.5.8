@@ -16,6 +16,7 @@ check_PROGRAMS = \
 		fixint \
 		fixint_c \
 		version \
+		shared_ptr \
 		msgpackc_test \
 		msgpack_test
 
@@ -45,6 +46,8 @@ fixint_SOURCES = fixint.cc
 fixint_c_SOURCES = fixint_c.cc
 
 version_SOURCES = version.cc
+
+shared_ptr_SOURCES = shared_ptr.cc
 
 msgpackc_test_SOURCES = msgpackc_test.cpp
 
