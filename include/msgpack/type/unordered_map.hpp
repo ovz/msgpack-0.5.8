@@ -15,17 +15,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 //
-#ifndef MSGPACK_TYPE_TR1_UNORDERED_MAP_HPP__
-#define MSGPACK_TYPE_TR1_UNORDERED_MAP_HPP__
+#ifndef MSGPACK_TYPE_UNORDERED_MAP_HPP__
+#define MSGPACK_TYPE_UNORDERED_MAP_HPP__
 
 #include "msgpack/object.hpp"
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 namespace msgpack {
 
 
 template <typename K, typename V>
-inline std::tr1::unordered_map<K, V> operator>> (object o, std::tr1::unordered_map<K, V>& v)
+inline std::unordered_map<K, V> operator>> (object o, std::unordered_map<K, V>& v)
 {
 	if(o.type != type::MAP) { throw type_error(); }
 	object_kv* p(o.via.map.ptr);
@@ -39,10 +39,10 @@ inline std::tr1::unordered_map<K, V> operator>> (object o, std::tr1::unordered_m
 }
 
 template <typename Stream, typename K, typename V>
-inline packer<Stream>& operator<< (packer<Stream>& o, const std::tr1::unordered_map<K,V>& v)
+inline packer<Stream>& operator<< (packer<Stream>& o, const std::unordered_map<K,V>& v)
 {
 	o.pack_map(v.size());
-	for(typename std::tr1::unordered_map<K,V>::const_iterator it(v.begin()), it_end(v.end());
+	for(typename std::unordered_map<K,V>::const_iterator it(v.begin()), it_end(v.end());
 			it != it_end; ++it) {
 		o.pack(it->first);
 		o.pack(it->second);
@@ -51,7 +51,7 @@ inline packer<Stream>& operator<< (packer<Stream>& o, const std::tr1::unordered_
 }
 
 template <typename K, typename V>
-inline void operator<< (object::with_zone& o, const std::tr1::unordered_map<K,V>& v)
+inline void operator<< (object::with_zone& o, const std::unordered_map<K,V>& v)
 {
 	o.type = type::MAP;
 	if(v.empty()) {
@@ -62,7 +62,7 @@ inline void operator<< (object::with_zone& o, const std::tr1::unordered_map<K,V>
 		object_kv* const pend = p + v.size();
 		o.via.map.ptr  = p;
 		o.via.map.size = v.size();
-		typename std::tr1::unordered_map<K,V>::const_iterator it(v.begin());
+		typename std::unordered_map<K,V>::const_iterator it(v.begin());
 		do {
 			p->key = object(it->first, o.zone);
 			p->val = object(it->second, o.zone);
@@ -74,7 +74,7 @@ inline void operator<< (object::with_zone& o, const std::tr1::unordered_map<K,V>
 
 
 template <typename K, typename V>
-inline std::tr1::unordered_multimap<K, V> operator>> (object o, std::tr1::unordered_multimap<K, V>& v)
+inline std::unordered_multimap<K, V> operator>> (object o, std::unordered_multimap<K, V>& v)
 {
 	if(o.type != type::MAP) { throw type_error(); }
 	object_kv* p(o.via.map.ptr);
@@ -89,10 +89,10 @@ inline std::tr1::unordered_multimap<K, V> operator>> (object o, std::tr1::unorde
 }
 
 template <typename Stream, typename K, typename V>
-inline packer<Stream>& operator<< (packer<Stream>& o, const std::tr1::unordered_multimap<K,V>& v)
+inline packer<Stream>& operator<< (packer<Stream>& o, const std::unordered_multimap<K,V>& v)
 {
 	o.pack_map(v.size());
-	for(typename std::tr1::unordered_multimap<K,V>::const_iterator it(v.begin()), it_end(v.end());
+	for(typename std::unordered_multimap<K,V>::const_iterator it(v.begin()), it_end(v.end());
 			it != it_end; ++it) {
 		o.pack(it->first);
 		o.pack(it->second);
@@ -101,7 +101,7 @@ inline packer<Stream>& operator<< (packer<Stream>& o, const std::tr1::unordered_
 }
 
 template <typename K, typename V>
-inline void operator<< (object::with_zone& o, const std::tr1::unordered_multimap<K,V>& v)
+inline void operator<< (object::with_zone& o, const std::unordered_multimap<K,V>& v)
 {
 	o.type = type::MAP;
 	if(v.empty()) {
@@ -112,7 +112,7 @@ inline void operator<< (object::with_zone& o, const std::tr1::unordered_multimap
 		object_kv* const pend = p + v.size();
 		o.via.map.ptr  = p;
 		o.via.map.size = v.size();
-		typename std::tr1::unordered_multimap<K,V>::const_iterator it(v.begin());
+		typename std::unordered_multimap<K,V>::const_iterator it(v.begin());
 		do {
 			p->key = object(it->first, o.zone);
 			p->val = object(it->second, o.zone);

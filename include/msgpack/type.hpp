@@ -13,4 +13,3 @@
 #include "type/vector.hpp"
 #include "type/tuple.hpp"
 #include "type/define.hpp"
-

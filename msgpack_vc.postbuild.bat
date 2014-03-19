@@ -1,7 +1,6 @@
 IF NOT EXIST include                  MKDIR include
 IF NOT EXIST include\msgpack          MKDIR include\msgpack
 IF NOT EXIST include\msgpack\type     MKDIR include\msgpack\type
-IF NOT EXIST include\msgpack\type\tr1 MKDIR include\msgpack\type\tr1
 copy src\msgpack\pack_define.h      include\msgpack\
 copy src\msgpack\pack_template.h    include\msgpack\
 copy src\msgpack\unpack_define.h    include\msgpack\
@@ -40,6 +39,6 @@ copy src\msgpack\type\string.hpp       include\msgpack\type\
 copy src\msgpack\type\vector.hpp       include\msgpack\type\
 copy src\msgpack\type\tuple.hpp        include\msgpack\type\
 copy src\msgpack\type\define.hpp       include\msgpack\type\
-copy src\msgpack\type\tr1\unordered_map.hpp  include\msgpack\type\tr1\
-copy src\msgpack\type\tr1\unordered_set.hpp  include\msgpack\type\tr1\
+copy src\msgpack\type\unordered_map.hpp  include\msgpack\type\
+copy src\msgpack\type\unordered_set.hpp  include\msgpack\type\
 
