@@ -27,11 +27,11 @@ namespace msgpack {
 /// Not all C++ compiler allow default template arguments for functions
 
 #define MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_UNPACK(K, V, H) \
-inline std::unordered_map<K, V, H> operator>> (object o, std::unordered_map<K, V, H>& v) \
+inline std::unordered_map<K, V, H> operator>> (msgpack::object o, std::unordered_map<K, V, H>& v) \
 { \
-	if(o.type != type::MAP) { throw type_error(); } \
-	object_kv* p(o.via.map.ptr); \
-	object_kv* const pend(o.via.map.ptr + o.via.map.size); \
+	if(o.type != msgpack::type::MAP) { throw msgpack::type_error(); } \
+	msgpack::object_kv* p(o.via.map.ptr); \
+	msgpack::object_kv* const pend(o.via.map.ptr + o.via.map.size); \
 	for(; p != pend; ++p) { \
 		K key; \
 		p->key.convert(&key); \
@@ -43,11 +43,11 @@ inline std::unordered_map<K, V, H> operator>> (object o, std::unordered_map<K, V
 template <typename K, typename V> 
 MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_UNPACK(K, V, std::hash<K>)
 
-#define MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK(K, V, H) \
-inline packer<Stream>& operator<< (packer<Stream>& o, const std::unordered_map<K, V, H>& v) \
+#define MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK(K, V, H, typename_keyword) \
+inline msgpack::packer<Stream>& operator<< (msgpack::packer<Stream>& o, const std::unordered_map<K, V, H>& v) \
 { \
 	o.pack_map(v.size()); \
-	for(typename std::unordered_map<K, V, H>::const_iterator it(v.begin()), it_end(v.end()); \
+	for(typename_keyword std::unordered_map<K, V, H>::const_iterator it(v.begin()), it_end(v.end()); \
 			it != it_end; ++it) { \
 		o.pack(it->first); \
 		o.pack(it->second); \
@@ -56,24 +56,24 @@ inline packer<Stream>& operator<< (packer<Stream>& o, const std::unordered_map<K
 } 
 
 template <typename Stream, typename K, typename V> 
-MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK(K, V, std::hash<K>)
+MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK(K, V, std::hash<K>, typename)
 
-#define MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK_OBJECT(K, V, H) \
-inline void operator<< (object::with_zone& o, const std::unordered_map<K, V, H>& v) \
+#define MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK_OBJECT(K, V, H, typename_keyword) \
+inline void operator<< (msgpack::object::with_zone& o, const std::unordered_map<K, V, H>& v) \
 { \
-	o.type = type::MAP; \
+	o.type = msgpack::type::MAP; \
 	if(v.empty()) { \
 		o.via.map.ptr  = NULL; \
 		o.via.map.size = 0; \
 	} else { \
-		object_kv* p = (object_kv*)o.zone->malloc(sizeof(object_kv)*v.size()); \
-		object_kv* const pend = p + v.size(); \
+		msgpack::object_kv* p = (msgpack::object_kv*)o.zone->malloc(sizeof(msgpack::object_kv)*v.size()); \
+		msgpack::object_kv* const pend = p + v.size(); \
 		o.via.map.ptr  = p; \
 		o.via.map.size = v.size(); \
-		typename std::unordered_map<K, V, H>::const_iterator it(v.begin()); \
+		typename_keyword std::unordered_map<K, V, H>::const_iterator it(v.begin()); \
 		do { \
-			p->key = object(it->first, o.zone); \
-			p->val = object(it->second, o.zone); \
+			p->key = msgpack::object(it->first, o.zone); \
+			p->val = msgpack::object(it->second, o.zone); \
 			++p; \
 			++it; \
 		} while(p < pend); \
@@ -81,23 +81,24 @@ inline void operator<< (object::with_zone& o, const std::unordered_map<K, V, H>&
 } 
 
 template <typename K, typename V> 
-MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK_OBJECT(K, V, std::hash<K>)
+MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK_OBJECT(K, V, std::hash<K>, typename)
 
+#define MSGPACK_UNORDERED_MAP_WITH_HASH_NO_TYPENAME
 #define MSGPACK_UNORDERED_MAP_WITH_HASH(K, V, H) \
 MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_UNPACK(K, V, H) \
 template <typename Stream> \
-MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK(K, V, H) \
-MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK_OBJECT(K, V, H) 
+MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK(K, V, H, MSGPACK_UNORDERED_MAP_WITH_HASH_NO_TYPENAME) \
+MSGPACK_UNORDERED_MAP_CONCRETE_OPERATOR_PACK_OBJECT(K, V, H, MSGPACK_UNORDERED_MAP_WITH_HASH_NO_TYPENAME) 
 
 
 // Original implementation of multimap
 
 template <typename K, typename V>
-inline std::unordered_multimap<K, V> operator>> (object o, std::unordered_multimap<K, V>& v)
+inline std::unordered_multimap<K, V> operator>> (msgpack::object o, std::unordered_multimap<K, V>& v)
 {
-	if(o.type != type::MAP) { throw type_error(); }
-	object_kv* p(o.via.map.ptr);
-	object_kv* const pend(o.via.map.ptr + o.via.map.size);
+	if(o.type != msgpack::type::MAP) { throw msgpack::type_error(); }
+	msgpack::object_kv* p(o.via.map.ptr);
+	msgpack::object_kv* const pend(o.via.map.ptr + o.via.map.size);
 	for(; p != pend; ++p) {
 		std::pair<K, V> value;
 		p->key.convert(&value.first);
@@ -108,7 +109,7 @@ inline std::unordered_multimap<K, V> operator>> (object o, std::unordered_multim
 }
 
 template <typename Stream, typename K, typename V>
-inline packer<Stream>& operator<< (packer<Stream>& o, const std::unordered_multimap<K,V>& v)
+inline msgpack::packer<Stream>& operator<< (msgpack::packer<Stream>& o, const std::unordered_multimap<K,V>& v)
 {
 	o.pack_map(v.size());
 	for(typename std::unordered_multimap<K,V>::const_iterator it(v.begin()), it_end(v.end());
@@ -120,21 +121,21 @@ inline packer<Stream>& operator<< (packer<Stream>& o, const std::unordered_multi
 }
 
 template <typename K, typename V>
-inline void operator<< (object::with_zone& o, const std::unordered_multimap<K,V>& v)
+inline void operator<< (msgpack::object::with_zone& o, const std::unordered_multimap<K,V>& v)
 {
-	o.type = type::MAP;
+	o.type = msgpack::type::MAP;
 	if(v.empty()) {
 		o.via.map.ptr  = NULL;
 		o.via.map.size = 0;
 	} else {
-		object_kv* p = (object_kv*)o.zone->malloc(sizeof(object_kv)*v.size());
-		object_kv* const pend = p + v.size();
+		msgpack::object_kv* p = (msgpack::object_kv*)o.zone->malloc(sizeof(msgpack::object_kv)*v.size());
+		msgpack::object_kv* const pend = p + v.size();
 		o.via.map.ptr  = p;
 		o.via.map.size = v.size();
 		typename std::unordered_multimap<K,V>::const_iterator it(v.begin());
 		do {
-			p->key = object(it->first, o.zone);
-			p->val = object(it->second, o.zone);
+			p->key = msgpack::object(it->first, o.zone);
+			p->val = msgpack::object(it->second, o.zone);
 			++p;
 			++it;
 		} while(p < pend);
