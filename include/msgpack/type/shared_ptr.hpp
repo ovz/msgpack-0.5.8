@@ -33,11 +33,11 @@ inline packer<Stream>& operator<< (packer<Stream>& o, const std::shared_ptr<T>& 
 	return o;
 }
 
-template <typename Stream, typename T>
+template <typename T>
 inline void operator<< (object::with_zone& o, const std::shared_ptr<T>& v)
 {
 	o.type = type::ARRAY;
-	if(v.empty()) {
+	if(nullptr == v) {
 		o.via.array.ptr = NULL;
 		o.via.array.size = 0;
 	} else {
