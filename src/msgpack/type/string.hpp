@@ -23,36 +23,38 @@
 
 namespace msgpack {
 
-
-inline std::string& operator>> (object o, std::string& v)
+template <typename Elem>
+inline std::basic_string<Elem>& operator>> (object o, std::basic_string<Elem>& v)
 {
 	if(o.type != type::RAW) { throw type_error(); }
-	v.assign(o.via.raw.ptr, o.via.raw.size);
+	v.assign(reinterpret_cast<const std::basic_string<Elem>::const_pointer>(o.via.raw.ptr), o.via.raw.size/sizeof(std::basic_string<Elem>::value_type));
 	return v;
 }
 
-template <typename Stream>
-inline packer<Stream>& operator<< (packer<Stream>& o, const std::string& v)
+template <typename Stream, typename Elem>
+inline packer<Stream>& operator<< (packer<Stream>& o, const std::basic_string<Elem>& v)
 {
-	o.pack_raw(v.size());
-	o.pack_raw_body(v.data(), v.size());
+  auto size = v.size()*sizeof(std::basic_string<Elem>::value_type);
+	o.pack_raw(size);
+	o.pack_raw_body(reinterpret_cast<const char*>(v.data()), size);
 	return o;
 }
-
-inline void operator<< (object::with_zone& o, const std::string& v)
+template <typename Elem>
+inline void operator<< (object::with_zone& o, const std::basic_string<Elem>& v)
 {
 	o.type = type::RAW;
-	char* ptr = (char*)o.zone->malloc(v.size());
+  auto size = v.size()*sizeof(std::basic_string<Elem>::value_type);
+	char* ptr = (char*)o.zone->malloc(size);
 	o.via.raw.ptr = ptr;
-	o.via.raw.size = (uint32_t)v.size();
-	memcpy(ptr, v.data(), v.size());
+	o.via.raw.size = (uint32_t)size;
+	memcpy(ptr, v.data(), size);
 }
-
-inline void operator<< (object& o, const std::string& v)
+template <typename Elem>
+inline void operator<< (object& o, const std::basic_string<Elem>& v)
 {
 	o.type = type::RAW;
 	o.via.raw.ptr = v.data();
-	o.via.raw.size = (uint32_t)v.size();
+	o.via.raw.size = (uint32_t)(v.size()*sizeof(std::basic_string<Elem>::value_type));
 }
 
 
