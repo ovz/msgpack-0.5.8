@@ -27,7 +27,7 @@ template <typename Elem>
 inline std::basic_string<Elem>& operator>> (object o, std::basic_string<Elem>& v)
 {
 	if(o.type != type::RAW) { throw type_error(); }
-	v.assign(reinterpret_cast<const std::basic_string<Elem>::const_pointer>(o.via.raw.ptr), o.via.raw.size/sizeof(std::basic_string<Elem>::value_type));
+	
 	return v;
 }
 
