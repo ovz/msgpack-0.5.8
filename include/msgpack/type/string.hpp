@@ -27,14 +27,14 @@ template <typename Elem>
 inline std::basic_string<Elem>& operator>> (object o, std::basic_string<Elem>& v)
 {
 	if(o.type != type::RAW) { throw type_error(); }
-	v.assign(reinterpret_cast<const Elem*>(o.via.raw.ptr), o.via.raw.size/sizeof(std::basic_string<Elem>::value_type));
+	v.assign(reinterpret_cast<const Elem*>(o.via.raw.ptr), o.via.raw.size/sizeof(Elem));
 	return v;
 }
 
 template <typename Stream, typename Elem>
 inline packer<Stream>& operator<< (packer<Stream>& o, const std::basic_string<Elem>& v)
 {
-  auto size = v.size()*sizeof(std::basic_string<Elem>::value_type);
+  auto size = v.size()*sizeof(Elem);
 	o.pack_raw(size);
 	o.pack_raw_body(reinterpret_cast<const char*>(v.data()), size);
 	return o;
