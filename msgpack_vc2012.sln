@@ -7,6 +7,10 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		MT|Win32 = MT|Win32
+		MT|x64 = MT|x64
+		MTd|Win32 = MTd|Win32
+		MTd|x64 = MTd|x64
 		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 	EndGlobalSection
@@ -15,6 +19,14 @@ Global
 		{122A2EA4-B283-4241-9655-786DE78283B2}.Debug|Win32.Build.0 = Debug|Win32
 		{122A2EA4-B283-4241-9655-786DE78283B2}.Debug|x64.ActiveCfg = Debug|x64
 		{122A2EA4-B283-4241-9655-786DE78283B2}.Debug|x64.Build.0 = Debug|x64
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MT|Win32.ActiveCfg = MT|Win32
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MT|Win32.Build.0 = MT|Win32
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MT|x64.ActiveCfg = MT|x64
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MT|x64.Build.0 = MT|x64
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MTd|Win32.ActiveCfg = MTd|Win32
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MTd|Win32.Build.0 = MTd|Win32
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MTd|x64.ActiveCfg = MTd|x64
+		{122A2EA4-B283-4241-9655-786DE78283B2}.MTd|x64.Build.0 = MTd|x64
 		{122A2EA4-B283-4241-9655-786DE78283B2}.Release|Win32.ActiveCfg = Release|Win32
 		{122A2EA4-B283-4241-9655-786DE78283B2}.Release|Win32.Build.0 = Release|Win32
 		{122A2EA4-B283-4241-9655-786DE78283B2}.Release|x64.ActiveCfg = Release|x64
